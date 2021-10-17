@@ -58,11 +58,14 @@ public class SaveUser implements ControlUserTask <User> {
         }
     }
 
-    private void insertAll(List<User> users){
+    private void insertAll(List<User> users) throws IOException {
+      List<String> lines = new ArrayList<>();
+      for (User user : users){
+          String aux = user.getID() +"-"+ user.getName()+"-"+user.getEmail();
+          lines.add(aux);
+      }
+      Files.write(this.file, lines);
 
-        for (User user : users){
-            insert(user);
-        }
     }
 
     @Override
@@ -84,7 +87,7 @@ public class SaveUser implements ControlUserTask <User> {
     }
 
     @Override
-    public void update(User ob ) {
+    public void update(User ob ) throws IOException {
         List<User> listUsers = list();
         User user = getUser(ob.getID(), listUsers);
         user.setName(ob.getName());
@@ -93,7 +96,7 @@ public class SaveUser implements ControlUserTask <User> {
     }
 
     @Override
-    public void delete(int id) {
+    public void delete(int id) throws IOException {
         List<User> listUsers = list();
         User ret = getUser(id, listUsers);
         listUsers.remove(ret);
