@@ -58,8 +58,8 @@ public class SaveUser implements ControlUserTask <User> {
         }
     }
 
-    private void insertAll(){
-        List<User> users = list();
+    private void insertAll(List<User> users){
+
         for (User user : users){
             insert(user);
         }
@@ -89,14 +89,14 @@ public class SaveUser implements ControlUserTask <User> {
         User user = getUser(ob.getID(), listUsers);
         user.setName(ob.getName());
         user.setEmail(ob.getEmail());
-        insertAll();
+        insertAll(listUsers);
     }
 
     @Override
     public void delete(int id) {
-        List<User> users = list();
-        User ret = getUser(id, users);
-        users.remove(ret);
-        insertAll();
+        List<User> listUsers = list();
+        User ret = getUser(id, listUsers);
+        listUsers.remove(ret);
+        insertAll(listUsers);
     }
 }
